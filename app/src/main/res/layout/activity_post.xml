@@ -3,18 +3,70 @@
     xmlns:fresco="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            fresco:placeholderImage="@color/wait_color"
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderWidth="2dp"
+            />
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:textSize="14sp"
+            android:textColor="@color/blue_text"
+            android:fontFamily="sans-serif-medium"
+            android:layout_toRightOf="@+id/ivProfileImage"/>
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_date"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/light_gray_text"
+
+            android:layout_alignParentRight="true"
+            />
+
+    </RelativeLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/ivImage"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        fresco:placeholderImage="@mipmap/ic_launcher" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:viewAspectRatio="1.33"
+        fresco:placeholderImage="@color/wait_color" />
+
+    <TextView
+        android:id="@+id/tvLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_text"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="4dp"
+        />
 
     <TextView
         android:id="@+id/tvCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="caption text here" />
+        android:fontFamily="sans-serif"
+        android:textSize="14sp"
+        android:textColor="@color/gray_text"
+        />
 
 </LinearLayout>

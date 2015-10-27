@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Instagram</string>
+    <string name="action_settings">Menu</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="username">tommy</string>
+    <string name="default_date">June 25, 2015</string>
+    <string name="default_likes">0 Likes</string>
+
 </resources>
