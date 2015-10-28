@@ -8,13 +8,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        >
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/ivProfileImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            fresco:placeholderImage="@color/wait_color"
+            fresco:placeholderImage="@drawable/gray_oval"
             fresco:roundAsCircle="true"
             fresco:roundingBorderWidth="2dp"
             />
@@ -23,6 +26,7 @@
             android:id="@+id/tvUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
             android:text="@string/username"
             android:textSize="14sp"
             android:textColor="@color/blue_text"
@@ -46,19 +50,43 @@
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        fresco:viewAspectRatio="1.33"
-        fresco:placeholderImage="@color/wait_color" />
+        android:layout_height="640dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        fresco:viewAspectRatio="1"
+        fresco:placeholderImage="@color/wait_color"
+        />
 
-    <TextView
-        android:id="@+id/tvLikes"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue_text"
-        android:fontFamily="sans-serif-medium"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"
-        />
+
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        >
+
+        <ImageView
+            android:id="@+id/ivLikes"
+            android:layout_marginTop="2dp"
+
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_heart"
+            android:layout_toLeftOf="@+id/tvLikes"
+            android:layout_marginRight="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue_text"
+            android:fontFamily="sans-serif-medium"
+            />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCaption"
@@ -67,6 +95,8 @@
         android:fontFamily="sans-serif"
         android:textSize="14sp"
         android:textColor="@color/gray_text"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
         />
 
 </LinearLayout>

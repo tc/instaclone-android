@@ -55,7 +55,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         }
 
         Uri profileImageUri = Uri.parse(post.user.profilePictureUrl);
-        holder.ivProfileImage.setImageURI(profileImageUri );
+        holder.ivProfileImage.setImageURI(profileImageUri);
 
         Uri imageUri = Uri.parse(post.image.imageUrl);
         holder.ivImage.setImageURI(imageUri);
