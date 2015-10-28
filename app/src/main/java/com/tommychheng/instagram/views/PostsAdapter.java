@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.instagram.R;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramPost;
@@ -64,8 +67,23 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         Uri profileImageUri = Uri.parse(post.user.profilePictureUrl);
         holder.ivProfileImage.setImageURI(profileImageUri);
 
+        GenericDraweeHierarchyBuilder builder =
+                new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchy hierarchy = builder.build();
+        hierarchy.setPlaceholderImage(R.drawable.gray_oval);
+        holder.ivProfileImage.setHierarchy(hierarchy);
+
+        RoundingParams roundingParams = RoundingParams.fromCornersRadius(5f);
+        roundingParams.setRoundAsCircle(true);
+        holder.ivProfileImage.getHierarchy().setRoundingParams(roundingParams);
+
         Uri imageUri = Uri.parse(post.image.imageUrl);
         holder.ivImage.setImageURI(imageUri);
+        GenericDraweeHierarchyBuilder builderForImage =
+                new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchy hierarchyForImage = builderForImage.build();
+        hierarchyForImage.setPlaceholderImage(R.drawable.gray_rectangle);
+        holder.ivImage.setHierarchy(hierarchyForImage);
     }
 
     public SpannableStringBuilder formatCaption(String userName, String caption) {

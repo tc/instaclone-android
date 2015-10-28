@@ -19,11 +19,6 @@
             android:layout_height="30dp"
             android:layout_marginBottom="4dp"
             fresco:placeholderImage="@drawable/gray_oval"
-
-            fresco:roundAsCircle="true"
-            fresco:roundedCornerRadius="5dp"
-            fresco:roundWithOverlayColor="@color/blue"
-            fresco:roundingBorderColor="@color/red"
             />
 
         <TextView
