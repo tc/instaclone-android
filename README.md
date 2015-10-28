@@ -2,7 +2,16 @@
 
 ## Overview
 
-This is the starter project for the Instagram Client Project. 
+This is the starter project for the Instagram Client Project.
+
+## Completed
+
+[x]    User can scroll through the popular posts from Instagram.
+[x]    For each post displayed, user can see the following details:
+[x]        Graphic, Caption, Username, User profile image
+[x]        Relative timestamp, Like count
+[x]    Display each user profile image as a circle.
+[x]    Display a nice default placeholder graphic for each image during loading.
 
 ## What's Included
 * <tt>com.tommychheng.instagram.models</tt> => We've built out the models so you can work directly with post, user, and image objects instead of having to deal with json.
