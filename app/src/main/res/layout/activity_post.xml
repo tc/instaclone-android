@@ -17,9 +17,13 @@
             android:id="@+id/ivProfileImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginBottom="4dp"
             fresco:placeholderImage="@drawable/gray_oval"
+
             fresco:roundAsCircle="true"
-            fresco:roundingBorderWidth="2dp"
+            fresco:roundedCornerRadius="5dp"
+            fresco:roundWithOverlayColor="@color/blue"
+            fresco:roundingBorderColor="@color/red"
             />
 
         <TextView
@@ -41,7 +45,6 @@
             android:textSize="14sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/light_gray_text"
-
             android:layout_alignParentRight="true"
             />
 
@@ -54,39 +57,28 @@
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         fresco:viewAspectRatio="1"
-        fresco:placeholderImage="@color/wait_color"
+        fresco:placeholderImageScaleType="fitCenter"
+        fresco:placeholderImage="@drawable/ic_search"
+        fresco:backgroundImage="@color/wait_color"
         />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvLikes"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/blue_text"
+        android:fontFamily="sans-serif-medium"
+
+        android:drawableLeft="@drawable/ic_small_heart_filled"
+        android:drawablePadding="5dp"
+
         android:layout_marginTop="10dp"
         android:layout_marginBottom="4dp"
 
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
-        >
+    />
 
-        <ImageView
-            android:id="@+id/ivLikes"
-            android:layout_marginTop="2dp"
-
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:src="@drawable/ic_heart"
-            android:layout_toLeftOf="@+id/tvLikes"
-            android:layout_marginRight="5dp"
-            />
-
-        <TextView
-            android:id="@+id/tvLikes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/blue_text"
-            android:fontFamily="sans-serif-medium"
-            />
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvCaption"
