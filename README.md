@@ -24,4 +24,4 @@ This is the starter project for the Instagram Client Project.
 ## Finished Project
 * By the end of the project, you will have built something that looks like the following:
 
-![image](https://raw.githubusercontent.com/tc/instaclone-android/master/screen.png)
+![image](https://raw.githubusercontent.com/tc/instaclone-android/master/instagram-clone-android.gif)
