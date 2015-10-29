@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.instagram.R;
@@ -20,6 +21,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tommychheng.instagram.helpers.Utils;
+import com.tommychheng.instagram.models.InstagramComment;
 import com.tommychheng.instagram.models.InstagramPost;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         View view = inflater.inflate(R.layout.activity_post, parent, false);
 
         PostsViewHolder viewHolder = new PostsViewHolder(view);
+
         return viewHolder;
     }
 
@@ -64,6 +67,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             holder.tvCaption.setVisibility(View.GONE);
         }
 
+        // profile image
         Uri profileImageUri = Uri.parse(post.user.profilePictureUrl);
         holder.ivProfileImage.setImageURI(profileImageUri);
 
@@ -72,11 +76,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         GenericDraweeHierarchy hierarchy = builder.build();
         hierarchy.setPlaceholderImage(R.drawable.gray_oval);
         holder.ivProfileImage.setHierarchy(hierarchy);
-
         RoundingParams roundingParams = RoundingParams.fromCornersRadius(5f);
         roundingParams.setRoundAsCircle(true);
         holder.ivProfileImage.getHierarchy().setRoundingParams(roundingParams);
 
+        // Main image
         Uri imageUri = Uri.parse(post.image.imageUrl);
         holder.ivImage.setImageURI(imageUri);
         GenericDraweeHierarchyBuilder builderForImage =
@@ -84,6 +88,15 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         GenericDraweeHierarchy hierarchyForImage = builderForImage.build();
         hierarchyForImage.setPlaceholderImage(R.drawable.gray_rectangle);
         holder.ivImage.setHierarchy(hierarchyForImage);
+
+        // Setup comments
+        holder.llComments.removeAllViews();
+        for (InstagramComment comment : post.comments) {
+            View commentView = LayoutInflater.from(context).inflate(R.layout.layout_item_text_comment, holder.llComments, false);
+            TextView tvComment = (TextView)commentView.findViewById(R.id.tvComment);
+            tvComment.setText(comment.text);
+            holder.llComments.addView(commentView);
+        }
     }
 
     public SpannableStringBuilder formatCaption(String userName, String caption) {
@@ -111,6 +124,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         public TextView tvLikes;
         public TextView tvCaption;
         public SimpleDraweeView ivImage;
+        public LinearLayout llComments;
 
         public PostsViewHolder(View layoutView) {
             super(layoutView);
@@ -120,6 +134,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             tvCaption = (TextView) layoutView.findViewById(R.id.tvCaption);
             ivProfileImage = (SimpleDraweeView) layoutView.findViewById(R.id.ivProfileImage);
             ivImage = (SimpleDraweeView) layoutView.findViewById(R.id.ivImage);
+            llComments = (LinearLayout) layoutView.findViewById(R.id.llComments);
         }
     }
 

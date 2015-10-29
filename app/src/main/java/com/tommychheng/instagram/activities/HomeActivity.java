@@ -10,10 +10,13 @@ import android.view.MenuItem;
 
 import com.codepath.instagram.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramPost;
+import com.tommychheng.instagram.networking.InstagramClient;
 import com.tommychheng.instagram.views.PostsAdapter;
 
+import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,8 +35,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
-        List<InstagramPost> posts = loadPosts();
-        setupPostList(posts);
+        loadPosts();
     }
 
     @Override
@@ -58,16 +60,35 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<InstagramPost> loadPosts() {
-        List<InstagramPost> posts = new ArrayList<InstagramPost>();
+    public void loadPosts() {
         try {
-            JSONObject json = Utils.loadJsonFromAsset(this, "popular.json");
-            posts = Utils.decodePostsFromJsonResponse(json);
-        } catch (Exception e) {
-            Log.e("HomeActivity", e.toString());
-        }
+//            JSONObject json = Utils.loadJsonFromAsset(this, "popular.json");
+//            List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(json);
+//            setupPostList(posts);
 
-        return posts;
+            InstagramClient.getPopularFeed( new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.e(TAG, response.toString());
+
+                    final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
+                    setupPostList(posts);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e(TAG, responseString);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
+                    Log.e(TAG, response.toString());
+                }
+            });
+
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
     }
 
     public void setupPostList(List<InstagramPost> posts) {
