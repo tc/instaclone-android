@@ -22,6 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.tommychheng.instagram.activities.CommentsActivity"
+            android:label="Comments"
+            android:parentActivityName="com.tommychheng.instagram.activities.HomeActivity">
+        </activity>
     </application>
 
 </manifest>

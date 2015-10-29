@@ -57,6 +57,26 @@
         fresco:backgroundImage="@color/wait_color"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/ivMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="8dp"
+            android:height="22dp"
+            android:src="@drawable/ic_more_dots"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
     <TextView
         android:id="@+id/tvLikes"
         android:layout_width="wrap_content"
@@ -73,7 +93,6 @@
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
     />
-
 
     <TextView
         android:id="@+id/tvCaption"
@@ -93,5 +112,15 @@
         android:orientation="vertical"
         android:layout_marginLeft="16dp">
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvViewMoreComments"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:text="View all comments"
+        android:textSize="14sp"
+        android:textColor="@color/light_gray_text"
+        android:layout_marginLeft="16dp"
+        />
 
 </LinearLayout>

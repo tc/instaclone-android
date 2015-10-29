@@ -17,6 +17,7 @@ public class InstagramClient {
     final static String TAG = "InstagramClient";
     final static String clientID = "41cd0066b82f47e69db868af15c4b370";
     final static String popularUrl = "https://api.instagram.com/v1/media/popular";
+    final static String commentsUrl = "https://api.instagram.com/v1/media/{mediaId}/comments";
 
     public static void getPopularFeed(JsonHttpResponseHandler responseHandler) {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -25,4 +26,13 @@ public class InstagramClient {
 
         client.get(popularUrl, params, responseHandler);
     }
+
+    public static void getComments(String mediaId, JsonHttpResponseHandler responseHandler) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("client_id", clientID);
+
+        client.get(commentsUrl.replace("{mediaId}", mediaId), params, responseHandler);
+    }
+
 }

@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.codepath.instagram.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -92,9 +94,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void setupPostList(List<InstagramPost> posts) {
-        RecyclerView rvMovies = (RecyclerView) findViewById(R.id.rvPosts);
-        PostsAdapter postsAdapter = new PostsAdapter(posts);
-        rvMovies.setAdapter(postsAdapter);
-        rvMovies.setLayoutManager(new GridLayoutManager(this, 1));
+        RecyclerView rv = (RecyclerView) findViewById(R.id.rvPosts);
+        PostsAdapter adapter = new PostsAdapter(posts);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new GridLayoutManager(this, 1));
     }
+
 }
