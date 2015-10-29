@@ -21,6 +21,7 @@ import com.tommychheng.instagram.views.PostsAdapter;
 
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -49,6 +50,7 @@ public class CommentsActivity extends AppCompatActivity {
                     Log.e(TAG, response.toString());
 
                     final List<InstagramComment> comments = Utils.decodeCommentsFromJsonResponse(response);
+                    Collections.reverse(comments);
                     setupComments(comments);
                 }
 
