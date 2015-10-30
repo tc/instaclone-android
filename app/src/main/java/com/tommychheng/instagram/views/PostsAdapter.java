@@ -57,6 +57,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     @Override
     public void onBindViewHolder(PostsViewHolder holder, int position) {
         final InstagramPost post = posts.get(position);
+        holder.post = post;
 
         holder.tvUsername.setText(post.user.userName);
         holder.tvDate.setText(DateUtils.getRelativeTimeSpanString(post.createdTime * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
@@ -122,30 +123,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         } else {
             holder.tvViewMoreComments.setVisibility(View.GONE);
         }
-
-        // Setup more
-        holder.ivMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("Test", "clicked");
-                share(post);
-            }
-        });
-    }
-
-
-    public void share(InstagramPost post) {
-        String text = "Look at my awesome picture";
-
-        Uri pictureUri = Uri.parse(post.image.imageUrl);
-
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri);
-        shareIntent.setType("image/*");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(Intent.createChooser(shareIntent, "Share images..."));
     }
 
     public SpannableStringBuilder formatCaption(String userName, String caption) {
@@ -167,6 +144,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
     }
 
     public static class PostsViewHolder extends RecyclerView.ViewHolder {
+        public InstagramPost post;
         public SimpleDraweeView ivProfileImage;
         public TextView tvUsername;
         public TextView tvDate;
@@ -188,6 +166,32 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
             llComments = (LinearLayout) layoutView.findViewById(R.id.llComments);
             tvViewMoreComments = (TextView) layoutView.findViewById(R.id.tvViewMoreComments);
             ivMore = (ImageView) layoutView.findViewById(R.id.ivMore);
+
+            setupListeners();
+        }
+
+        void setupListeners() {
+            ivMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // context can be referenced via v.getContext()
+                    share(post, v);
+                }
+            });
+        }
+
+        public void share(InstagramPost post, View view) {
+            String text = "Look at my awesome picture";
+
+            Uri pictureUri = Uri.parse(post.image.imageUrl);
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pictureUri);
+            shareIntent.setType("image/*");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            view.getContext().startActivity(Intent.createChooser(shareIntent, "Share images..."));
         }
     }
 
