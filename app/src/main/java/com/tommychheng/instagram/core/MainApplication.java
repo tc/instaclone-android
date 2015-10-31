@@ -3,6 +3,7 @@ package com.tommychheng.instagram.core;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.tommychheng.instagram.networking.InstagramClient;
 
 public class MainApplication extends Application {
     private static final String TAG = "MainApplication";
@@ -18,5 +19,9 @@ public class MainApplication extends Application {
         instance = this;
         super.onCreate();
         Fresco.initialize(this);
+    }
+
+    public static InstagramClient getRestClient() {
+        return (InstagramClient) InstagramClient.getInstance(InstagramClient.class, sharedApplication());
     }
 }
