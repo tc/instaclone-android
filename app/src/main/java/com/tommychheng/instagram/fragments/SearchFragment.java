@@ -42,6 +42,8 @@ public class SearchFragment extends Fragment {
 
         Log.i(TAG, "onCreateView");
         setHasOptionsMenu(true);
+        setMenuVisibility(true);
+
         return view;
     }
 
