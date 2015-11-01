@@ -3,8 +3,10 @@ package com.tommychheng.instagram.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +19,8 @@ import android.view.ViewGroup;
 
 import com.codepath.instagram.R;
 import com.tommychheng.instagram.activities.HomeActivity;
+import com.tommychheng.instagram.views.HomeFragmentPageAdapter;
+import com.tommychheng.instagram.views.SearchPageAdapter;
 
 /**
  * Created by tchheng on 10/31/15.
@@ -31,6 +35,14 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         setHasOptionsMenu(true);
+
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.search_viewpager);
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+        }
+
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.search_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         return view;
     }
@@ -78,4 +90,13 @@ public class SearchFragment extends Fragment {
             miActionProgressItem.setVisible(false);
         }
     }
+
+    private void setupViewPager(ViewPager viewPager) {
+        SearchPageAdapter adapter = new SearchPageAdapter(getChildFragmentManager(), getContext());
+        adapter.addFragment(new SearchTagsResultFragment(), "Tags");
+        adapter.addFragment(new SearchUsersResultFragment(), "Users");
+
+        viewPager.setAdapter(adapter);
+    }
+
 }
