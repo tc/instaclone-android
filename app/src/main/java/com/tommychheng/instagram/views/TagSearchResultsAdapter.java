@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by tchheng on 10/31/15.
  */
-public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResultsAdapter.SearchResultsViewHolder> {
+public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResultsAdapter.TagSearchResultsViewHolder> {
     List<InstagramSearchTag> tags;
     Context context;
 
@@ -26,23 +26,23 @@ public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResul
     }
 
     @Override
-    public SearchResultsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TagSearchResultsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View view = inflater.inflate(R.layout.layout_item_search_tag, parent, false);
 
-        SearchResultsViewHolder viewHolder = new SearchResultsViewHolder(view);
+        TagSearchResultsViewHolder viewHolder = new TagSearchResultsViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(SearchResultsViewHolder holder, int position) {
+    public void onBindViewHolder(TagSearchResultsViewHolder holder, int position) {
         final InstagramSearchTag tag = tags.get(position);
         holder.tag = tag;
         holder.tvSearchTag.setText(tag.tag);
-        holder.tvSearchTagCount.setText(tag.count);
+        holder.tvSearchTagCount.setText(String.valueOf(tag.count) + " posts");
     }
 
     @Override
@@ -50,12 +50,12 @@ public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResul
         return tags.size();
     }
 
-    public static class SearchResultsViewHolder extends RecyclerView.ViewHolder {
+    public static class TagSearchResultsViewHolder extends RecyclerView.ViewHolder {
         public InstagramSearchTag tag;
         public TextView tvSearchTag;
         public TextView tvSearchTagCount;
 
-        public SearchResultsViewHolder(View layoutView) {
+        public TagSearchResultsViewHolder(View layoutView) {
             super(layoutView);
             tvSearchTag = (TextView) layoutView.findViewById(R.id.tvSearchTag);
             tvSearchTagCount = (TextView) layoutView.findViewById(R.id.tvSearchTagCount);

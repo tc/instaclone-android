@@ -14,14 +14,13 @@
         android:theme="@style/Theme.DesignDemo">
 
         <activity
-            android:name="com.tommychheng.instagram.activities.HomeActivity"
-            android:label="@string/app_name" >
+            android:name="com.tommychheng.instagram.activities.LoginActivity"
+            android:label="Login"
+            android:parentActivityName="com.tommychheng.instagram.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
@@ -29,6 +28,11 @@
                     android:host="codepath.com"
                     />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.tommychheng.instagram.activities.HomeActivity"
+            android:label="@string/app_name" >
         </activity>
 
         <activity

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.codepath.instagram.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tommychheng.instagram.activities.HomeActivity;
+import com.tommychheng.instagram.core.MainApplication;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramPost;
 import com.tommychheng.instagram.networking.InstagramClient;
@@ -28,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * Created by tchheng on 10/31/15.
@@ -49,7 +50,7 @@ public class PostsFragment extends Fragment {
 
     public void loadPosts() {
         try {
-            InstagramClient.getPopularFeed(new JsonHttpResponseHandler() {
+            MainApplication.getRestClient().getHomeFeed(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.e(TAG, response.toString());
@@ -60,6 +61,7 @@ public class PostsFragment extends Fragment {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.e(TAG, String.valueOf(statusCode));
                     Log.e(TAG, responseString);
                 }
 

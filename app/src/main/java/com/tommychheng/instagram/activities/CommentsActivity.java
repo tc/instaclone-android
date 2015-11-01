@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.tommychheng.instagram.core.MainApplication;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramComment;
 import com.tommychheng.instagram.models.InstagramPost;
@@ -19,12 +20,11 @@ import com.tommychheng.instagram.networking.InstagramClient;
 import com.tommychheng.instagram.views.CommentsAdapter;
 import com.tommychheng.instagram.views.PostsAdapter;
 
+import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by tchheng on 10/29/15.
@@ -44,7 +44,7 @@ public class CommentsActivity extends AppCompatActivity {
 
     private void loadComments(String mediaId) {
         try {
-            InstagramClient.getComments(mediaId, new JsonHttpResponseHandler() {
+            MainApplication.getRestClient().getComments(mediaId, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.e(TAG, response.toString());

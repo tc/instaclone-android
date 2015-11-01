@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.codepath.instagram.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.tommychheng.instagram.core.MainApplication;
+import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramSearchTag;
 import com.tommychheng.instagram.models.InstagramUser;
 import com.tommychheng.instagram.networking.InstagramClient;
@@ -23,7 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * Created by tchheng on 10/31/15.
@@ -57,19 +59,12 @@ public class SearchUsersResultFragment extends Fragment {
 
     public void loadUsers(String query) {
         try {
-            InstagramClient.searchUsers(query, new JsonHttpResponseHandler() {
+            MainApplication.getRestClient().searchUsers(query, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.e(TAG, response.toString());
 
-                    final List<InstagramUser> users = new ArrayList<InstagramUser>();//Utils.decodeSearchTagsFromJsonResponse(response);
-                    InstagramUser user = new InstagramUser();
-                    user.userName = "username";
-                    user.fullName = "Tom Bear";
-                    user.userId = "adfasdkfjk";
-                    user.profilePictureUrl = "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11349315_1620970341492406_1971976479_a.jpg";
-
-                    users.add(user);
+                    final List<InstagramUser> users = Utils.decodeUsersFromJsonResponse(response);
                     setupList(users);
                 }
 
@@ -98,5 +93,18 @@ public class SearchUsersResultFragment extends Fragment {
         } else {
             Log.i(TAG, "mRv is null");
         }
+    }
+
+    private List<InstagramUser> getTestSet() {
+        final List<InstagramUser> users = new ArrayList<InstagramUser>();
+        InstagramUser user = new InstagramUser();
+        user.userName = "username";
+        user.fullName = "Tom Bear";
+        user.userId = "adfasdkfjk";
+        user.profilePictureUrl = "https://igcdn-photos-g-a.akamaihd.net/hphotos-ak-xfa1/t51.2885-19/11349315_1620970341492406_1971976479_a.jpg";
+
+        users.add(user);
+
+        return users;
     }
 }

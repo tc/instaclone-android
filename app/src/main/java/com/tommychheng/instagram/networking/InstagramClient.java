@@ -23,16 +23,19 @@ public class InstagramClient extends OAuthBaseClient {
     final static String TAG = "InstagramClient";
 
     final static String REST_URL = "https://api.instagram.com/v1/";
-    final static String REST_CONSUMER_KEY = "";
-    final static String REST_CONSUMER_SECRET = "";
-    final static String REST_CALLBACK_URL = "oauth://arbitraryname.com";
+    private static final String REST_CONSUMER_KEY = "7fb830b3d9f944caadde9827cacc50a2";
+    private static final String REST_CONSUMER_SECRET = "eaaed381d5264040930f3930937c2aa2";
+    final static String REST_CALLBACK_URL = "oauth://codepath.com";
     final static String REDIRECT_URI = Constants.REDIRECT_URI;
     final static String SCOPE = Constants.SCOPE;
 
     final static String clientID = "41cd0066b82f47e69db868af15c4b370";
     final static String popularUrl = "https://api.instagram.com/v1/media/popular";
     final static String commentsUrl = "https://api.instagram.com/v1/media/{mediaId}/comments";
-    final static String searchUrl = "https://api.instagram.com/v1/tags/search?q={searchTerm}";
+
+    final static String USERS_SEARCH_PATH = "users/search?q={query}";
+    final static String TAGS_SEARCH_PATH = "tags/search?q={query}";
+    final static String FEED_PATH = "users/self/feed";
 
     public InstagramClient(Context context) {
         super(context, REST_API_CLASS, REST_URL,
@@ -40,40 +43,36 @@ public class InstagramClient extends OAuthBaseClient {
     }
 
     public void getHomeFeed(JsonHttpResponseHandler handler) {
-        String apiUrl = getApiUrl("statuses/home_timeline.json");
+        String apiUrl = getApiUrl(FEED_PATH);
         RequestParams params = new RequestParams();
         client.get(apiUrl, params, handler);
     }
 
-    public static void getPopularFeed(JsonHttpResponseHandler responseHandler) {
-        AsyncHttpClient client = new AsyncHttpClient();
+    public void searchUsers(String query, JsonHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(USERS_SEARCH_PATH.replace("{query}", query));
         RequestParams params = new RequestParams();
-        params.put("client_id", clientID);
-
-        client.get(popularUrl, params, responseHandler);
+        client.get(apiUrl, params, handler);
     }
 
-    public static void getComments(String mediaId, JsonHttpResponseHandler responseHandler) {
-        AsyncHttpClient client = new AsyncHttpClient();
+    public void searchTags(String query, JsonHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(TAGS_SEARCH_PATH.replace("{query}", query));
         RequestParams params = new RequestParams();
-        params.put("client_id", clientID);
-
-        client.get(commentsUrl.replace("{mediaId}", mediaId), params, responseHandler);
+        client.get(apiUrl, params, handler);
     }
 
-    public static void searchUsers(String query, JsonHttpResponseHandler responseHandler) {
-        AsyncHttpClient client = new AsyncHttpClient();
+    public void getPopularFeed(JsonHttpResponseHandler responseHandler) {
+        AsyncHttpClient nonAuthClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("client_id", clientID);
 
-        client.get(popularUrl, params, responseHandler);
+        nonAuthClient.get(popularUrl, params, responseHandler);
     }
 
-    public static void searchTags(String query, JsonHttpResponseHandler responseHandler) {
-        AsyncHttpClient client = new AsyncHttpClient();
+    public void getComments(String mediaId, JsonHttpResponseHandler responseHandler) {
+        AsyncHttpClient nonAuthClient = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("client_id", clientID);
 
-        client.get(popularUrl, params, responseHandler);
+        nonAuthClient.get(commentsUrl.replace("{mediaId}", mediaId), params, responseHandler);
     }
 }

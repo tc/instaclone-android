@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.codepath.instagram.R;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.tommychheng.instagram.core.MainApplication;
+import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramSearchTag;
 import com.tommychheng.instagram.networking.InstagramClient;
 import com.tommychheng.instagram.views.TagSearchResultsAdapter;
@@ -21,7 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.Header;
+import org.apache.http.Header;
 
 /**
  * Created by tchheng on 10/31/15.
@@ -54,17 +56,12 @@ public class SearchTagsResultFragment extends Fragment {
 
     public void loadTags(String query) {
         try {
-            InstagramClient.searchTags(query, new JsonHttpResponseHandler() {
+            MainApplication.getRestClient().searchTags(query, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     Log.e(TAG, response.toString());
 
-                    final List<InstagramSearchTag> tags = new ArrayList<InstagramSearchTag>();//Utils.decodeSearchTagsFromJsonResponse(response);
-                    InstagramSearchTag tag = new InstagramSearchTag();
-                    tag.count = 45;
-                    tag.tag = "test";
-                    tags.add(tag);
-
+                    final List<InstagramSearchTag> tags = Utils.decodeSearchTagsFromJsonResponse(response);
                     setupList(tags);
                 }
 
@@ -88,5 +85,14 @@ public class SearchTagsResultFragment extends Fragment {
         TagSearchResultsAdapter adapter = new TagSearchResultsAdapter(tags);
         mRv.setAdapter(adapter);
         mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+    }
+
+    private List<InstagramSearchTag> getTestTags() {
+        final List<InstagramSearchTag> tags = new ArrayList<InstagramSearchTag>();
+        InstagramSearchTag tag = new InstagramSearchTag();
+        tag.count = 45;
+        tag.tag = "test";
+        tags.add(tag);
+        return tags;
     }
 }
