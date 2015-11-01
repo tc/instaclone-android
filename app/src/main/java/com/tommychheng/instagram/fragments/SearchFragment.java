@@ -25,37 +25,25 @@ public class SearchFragment extends Fragment {
     final static String TAG = "SearchFragment";
     MenuItem miActionProgressItem;
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
-
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-        setMenuVisibility(true);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        Log.i(TAG, "onCreateView");
         setHasOptionsMenu(true);
-        setMenuVisibility(true);
 
         return view;
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        Log.i(TAG, "onCreateOptionMenu");
 
         inflater.inflate(R.menu.menu_search, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
 
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setIconifiedByDefault(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 

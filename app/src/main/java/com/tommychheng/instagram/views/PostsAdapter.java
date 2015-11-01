@@ -7,13 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.format.DateUtils;
-import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,7 +21,6 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.tommychheng.instagram.activities.CommentsActivity;
-import com.tommychheng.instagram.activities.HomeActivity;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramComment;
 import com.tommychheng.instagram.models.InstagramPost;
@@ -47,7 +43,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.activity_post, parent, false);
+        View view = inflater.inflate(R.layout.layout_item_post, parent, false);
 
         PostsViewHolder viewHolder = new PostsViewHolder(view);
 
