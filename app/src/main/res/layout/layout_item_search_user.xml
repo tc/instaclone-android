@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/ivSearchUserProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginRight="12dp"
+        fresco:placeholderImage="@drawable/gray_oval"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/tvSearchUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
+            android:textColor="@color/gray_text"
+            />
+
+        <TextView
+            android:id="@+id/tvSearchUserFullname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textSize="14sp"
+            android:textColor="@color/light_gray_text"/>
+
+    </LinearLayout>
+</LinearLayout>
+

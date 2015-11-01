@@ -27,24 +27,18 @@ import com.tommychheng.instagram.views.SearchPageAdapter;
  */
 public class SearchFragment extends Fragment {
     final static String TAG = "SearchFragment";
+
+    View mView;
     MenuItem miActionProgressItem;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        mView = inflater.inflate(R.layout.fragment_search, container, false);
 
         setHasOptionsMenu(true);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.search_viewpager);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-
-        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.search_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        return view;
+        return mView;
     }
 
     @Override
@@ -62,6 +56,14 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i(TAG, query);
+
+                ViewPager viewPager = (ViewPager) mView.findViewById(R.id.search_viewpager);
+                if (viewPager != null) {
+                    setupViewPager(viewPager, query);
+                }
+                TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.search_tabs);
+                tabLayout.setupWithViewPager(viewPager);
+
                 return true;
             }
 
@@ -91,12 +93,13 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager, String query) {
         SearchPageAdapter adapter = new SearchPageAdapter(getChildFragmentManager(), getContext());
-        adapter.addFragment(new SearchTagsResultFragment(), "Tags");
-        adapter.addFragment(new SearchUsersResultFragment(), "Users");
+        Fragment tagsFragment = SearchTagsResultFragment.newInstance(query);
+        Fragment usersFragment = SearchUsersResultFragment.newInstance(query);
+        adapter.addFragment(tagsFragment, "Tags");
+        adapter.addFragment(usersFragment, "Users");
 
         viewPager.setAdapter(adapter);
     }
-
 }

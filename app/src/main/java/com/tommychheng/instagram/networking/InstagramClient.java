@@ -32,6 +32,7 @@ public class InstagramClient extends OAuthBaseClient {
     final static String clientID = "41cd0066b82f47e69db868af15c4b370";
     final static String popularUrl = "https://api.instagram.com/v1/media/popular";
     final static String commentsUrl = "https://api.instagram.com/v1/media/{mediaId}/comments";
+    final static String searchUrl = "https://api.instagram.com/v1/tags/search?q={searchTerm}";
 
     public InstagramClient(Context context) {
         super(context, REST_API_CLASS, REST_URL,
@@ -60,4 +61,19 @@ public class InstagramClient extends OAuthBaseClient {
         client.get(commentsUrl.replace("{mediaId}", mediaId), params, responseHandler);
     }
 
+    public static void searchUsers(String query, JsonHttpResponseHandler responseHandler) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("client_id", clientID);
+
+        client.get(popularUrl, params, responseHandler);
+    }
+
+    public static void searchTags(String query, JsonHttpResponseHandler responseHandler) {
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("client_id", clientID);
+
+        client.get(popularUrl, params, responseHandler);
+    }
 }
