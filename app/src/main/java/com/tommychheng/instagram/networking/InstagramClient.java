@@ -22,7 +22,7 @@ public class InstagramClient extends OAuthBaseClient {
     public static final Class<? extends Api> REST_API_CLASS = InstagramApi.class;
     final static String TAG = "InstagramClient";
 
-    final static String REST_URL = "https://api.instagram.com/v1/";
+    final static String REST_URL = "https://api.instagram.com/v1";
     private static final String REST_CONSUMER_KEY = "7fb830b3d9f944caadde9827cacc50a2";
     private static final String REST_CONSUMER_SECRET = "eaaed381d5264040930f3930937c2aa2";
     final static String REST_CALLBACK_URL = "oauth://codepath.com";
@@ -44,6 +44,7 @@ public class InstagramClient extends OAuthBaseClient {
 
     public void getHomeFeed(JsonHttpResponseHandler handler) {
         String apiUrl = getApiUrl(FEED_PATH);
+        Log.i(TAG, "url: " + apiUrl);
         RequestParams params = new RequestParams();
         client.get(apiUrl, params, handler);
     }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.instagram.R;
+import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramSearchTag;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResul
         final InstagramSearchTag tag = tags.get(position);
         holder.tag = tag;
         holder.tvSearchTag.setText(tag.tag);
-        holder.tvSearchTagCount.setText(String.valueOf(tag.count) + " posts");
+        holder.tvSearchTagCount.setText(Utils.formatNumberForDisplay(tag.count) + " posts");
     }
 
     @Override
