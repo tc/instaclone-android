@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,16 +37,35 @@ import org.apache.http.Header;
  */
 public class PostsFragment extends Fragment {
     final static String TAG = "PostsFragment";
+    SwipeRefreshLayout swipeContainer = null;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
+
         setHasOptionsMenu(true);
+
+        setupSwipeRefresh(view);
 
         loadPosts();
 
         return view;
+    }
+
+    public void setupSwipeRefresh(View view) {
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadPosts();
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     public void loadPosts() {
@@ -53,10 +73,12 @@ public class PostsFragment extends Fragment {
             MainApplication.getRestClient().getHomeFeed(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    Log.e(TAG, response.toString());
-
                     final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
                     setupPostList(posts);
+
+                    if (swipeContainer != null) {
+                        swipeContainer.setRefreshing(false);
+                    }
                 }
 
                 @Override
