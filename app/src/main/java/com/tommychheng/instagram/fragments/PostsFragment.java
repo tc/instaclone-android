@@ -1,12 +1,16 @@
 package com.tommychheng.instagram.fragments;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +29,15 @@ import com.tommychheng.instagram.activities.HomeActivity;
 import com.tommychheng.instagram.core.MainApplication;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramPost;
+import com.tommychheng.instagram.models.InstagramPosts;
 import com.tommychheng.instagram.networking.InstagramClient;
 import com.tommychheng.instagram.persistence.InstagramClientDatabase;
 import com.tommychheng.instagram.views.PostsAdapter;
+import com.tommychheng.instagram.services.InstagramService;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
@@ -41,11 +48,17 @@ import org.apache.http.Header;
 public class PostsFragment extends Fragment {
     final static String TAG = "PostsFragment";
     SwipeRefreshLayout swipeContainer = null;
+    RecyclerView rv;
+    PostsAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
+        rv = (RecyclerView) view.findViewById(R.id.rvPosts);
+        adapter = new PostsAdapter(new ArrayList<InstagramPost>());
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new GridLayoutManager(getContext(), 1));
 
         setHasOptionsMenu(true);
 
@@ -62,6 +75,8 @@ public class PostsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.i(TAG, "onRefresh");
+
                 loadPosts();
             }
         });
@@ -73,46 +88,50 @@ public class PostsFragment extends Fragment {
 
     public void loadPosts() {
         if (isNetworkAvailable()) {
-            InstagramClientDatabase.getInstance(getActivity()).getAllInstagramPosts();
+            Log.i(TAG, "Sending intent for instagram service");
+            Intent i = new Intent(getContext(), InstagramService.class);
+            getContext().startService(i);
         } else {
-            try {
-                MainApplication.getRestClient().getHomeFeed(new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
-                        setupPostList(posts);
-
-                        InstagramClientDatabase.getInstance(getActivity()).emptyAllTables();
-                        InstagramClientDatabase.getInstance(getActivity()).addInstagramPosts(posts);
-
-                        if (swipeContainer != null) {
-                            swipeContainer.setRefreshing(false);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.e(TAG, String.valueOf(statusCode));
-                        Log.e(TAG, responseString);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
-                        Log.e(TAG, response.toString());
-                    }
-                });
-
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
+            Log.i(TAG, "Loading instagram posts");
+            List<InstagramPost> posts = InstagramClientDatabase.getInstance(getContext()).getAllInstagramPosts();
+            setupPostList(posts);
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume, registering " + InstagramService.ACTION);
+        IntentFilter in = new IntentFilter(InstagramService.ACTION);
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(postsReceiver, in);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(postsReceiver);
+    }
+
+    private BroadcastReceiver postsReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int resultCode = intent.getIntExtra(InstagramService.KEY_RESULT_CODE, Activity.RESULT_CANCELED);
+
+            Log.i(TAG, "onReceive- received broadcast " + String.valueOf(resultCode));
+            if (resultCode == Activity.RESULT_OK) {
+                // Extract the json string from the bundle and save it to SharedPreferences.
+                InstagramPosts resultValue = (InstagramPosts)intent.getSerializableExtra(InstagramService.KEY_RESULTS);
+
+                setupPostList(resultValue.posts);
+                if (swipeContainer != null) {
+                    swipeContainer.setRefreshing(false);
+                }
+            }
+        }
+    };
+
     public void setupPostList(List<InstagramPost> posts) {
-        RecyclerView rv = (RecyclerView) getView().findViewById(R.id.rvPosts);
-        PostsAdapter adapter = new PostsAdapter(posts);
-        rv.setAdapter(adapter);
-        rv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        adapter.addAll(posts);
     }
 
     private Boolean isNetworkAvailable() {

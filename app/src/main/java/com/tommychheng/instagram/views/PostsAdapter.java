@@ -38,6 +38,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         this.posts = posts;
     }
 
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<InstagramPost> list) {
+        posts.addAll(list);
+        notifyDataSetChanged();
+    }
+
     @Override
     public PostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
