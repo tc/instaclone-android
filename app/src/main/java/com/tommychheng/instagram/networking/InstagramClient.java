@@ -9,6 +9,7 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.SyncHttpClient;
 import com.tommychheng.instagram.helpers.Constants;
 
 import org.scribe.builder.api.Api;
@@ -18,6 +19,7 @@ import org.scribe.model.OAuthConfig;
  * Created by tchheng on 10/29/15.
  */
 public class InstagramClient extends OAuthBaseClient {
+    SyncHttpClient syncHttpClient;
 
     public static final Class<? extends Api> REST_API_CLASS = InstagramApi.class;
     final static String TAG = "InstagramClient";
@@ -40,13 +42,19 @@ public class InstagramClient extends OAuthBaseClient {
     public InstagramClient(Context context) {
         super(context, REST_API_CLASS, REST_URL,
                 REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL, SCOPE);
+
+        syncHttpClient = new SyncHttpClient();
     }
 
     public void getHomeFeed(JsonHttpResponseHandler handler) {
         String apiUrl = getApiUrl(FEED_PATH);
         Log.i(TAG, "url: " + apiUrl);
         RequestParams params = new RequestParams();
-        client.get(apiUrl, params, handler);
+        params.put("access_token", client.getAccessToken().getToken());
+
+        // services can't use Async http because thread will be killed
+        // use sync one
+        syncHttpClient.get(apiUrl, params, handler);
     }
 
     public void searchUsers(String query, JsonHttpResponseHandler handler) {

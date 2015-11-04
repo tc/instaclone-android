@@ -22,6 +22,7 @@ public class MainApplication extends Application {
     }
 
     public static InstagramClient getRestClient() {
+
         return (InstagramClient) InstagramClient.getInstance(InstagramClient.class, sharedApplication());
     }
 }

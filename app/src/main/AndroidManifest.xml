@@ -41,6 +41,10 @@
             android:label="Comments"
             android:parentActivityName="com.tommychheng.instagram.activities.HomeActivity">
         </activity>
+
+        <service
+            android:name="com.tommychheng.instagram.services.InstagramService"
+            android:exported="false" />
     </application>
 
 </manifest>
