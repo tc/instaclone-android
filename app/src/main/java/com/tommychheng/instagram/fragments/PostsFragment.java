@@ -2,6 +2,8 @@ package com.tommychheng.instagram.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +26,7 @@ import com.tommychheng.instagram.core.MainApplication;
 import com.tommychheng.instagram.helpers.Utils;
 import com.tommychheng.instagram.models.InstagramPost;
 import com.tommychheng.instagram.networking.InstagramClient;
+import com.tommychheng.instagram.persistence.InstagramClientDatabase;
 import com.tommychheng.instagram.views.PostsAdapter;
 
 import org.json.JSONObject;
@@ -69,32 +72,37 @@ public class PostsFragment extends Fragment {
     }
 
     public void loadPosts() {
-        try {
-            MainApplication.getRestClient().getHomeFeed(new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
-                    setupPostList(posts);
+        if (isNetworkAvailable()) {
+            InstagramClientDatabase.getInstance(getActivity()).getAllInstagramPosts();
+        } else {
+            try {
+                MainApplication.getRestClient().getHomeFeed(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
+                        setupPostList(posts);
+                        InstagramClientDatabase.getInstance(getActivity()).addInstagramPosts(posts);
 
-                    if (swipeContainer != null) {
-                        swipeContainer.setRefreshing(false);
+                        if (swipeContainer != null) {
+                            swipeContainer.setRefreshing(false);
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.e(TAG, String.valueOf(statusCode));
-                    Log.e(TAG, responseString);
-                }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.e(TAG, String.valueOf(statusCode));
+                        Log.e(TAG, responseString);
+                    }
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
-                    Log.e(TAG, response.toString());
-                }
-            });
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
+                        Log.e(TAG, response.toString());
+                    }
+                });
 
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
         }
     }
 
@@ -103,5 +111,12 @@ public class PostsFragment extends Fragment {
         PostsAdapter adapter = new PostsAdapter(posts);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+    }
+
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }
