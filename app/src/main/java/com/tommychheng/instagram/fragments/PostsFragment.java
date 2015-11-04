@@ -81,6 +81,8 @@ public class PostsFragment extends Fragment {
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         final List<InstagramPost> posts = Utils.decodePostsFromJsonResponse(response);
                         setupPostList(posts);
+
+                        InstagramClientDatabase.getInstance(getActivity()).emptyAllTables();
                         InstagramClientDatabase.getInstance(getActivity()).addInstagramPosts(posts);
 
                         if (swipeContainer != null) {

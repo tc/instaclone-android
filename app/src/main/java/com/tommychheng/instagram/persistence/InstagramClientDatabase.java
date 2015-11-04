@@ -149,18 +149,22 @@ public class InstagramClientDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
-            emptyAllTables();
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_POSTS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENTS);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_POST_COMMENTS);
             onCreate(db);
         }
     }
 
     public void emptyAllTables() {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_POSTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMMENTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_POST_COMMENTS);
+        db.execSQL("DELETE * FROM " + TABLE_POSTS);
+        db.execSQL("DELETE * FROM " + TABLE_USERS);
+        db.execSQL("DELETE * FROM " + TABLE_COMMENTS);
+        db.execSQL("DELETE * FROM " + TABLE_IMAGES);
+        db.execSQL("DELETE * FROM " + TABLE_POST_COMMENTS);
     }
 
     public void addInstagramPosts(List<InstagramPost> posts) {
