@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 
 import com.codepath.instagram.R;
+import com.tommychheng.instagram.fragments.SearchResultFragment;
+import com.tommychheng.instagram.fragments.SearchTagsResultFragment;
+import com.tommychheng.instagram.fragments.SearchUsersResultFragment;
 import com.tommychheng.instagram.helpers.SmartFragmentStatePagerAdapter;
 
 import java.util.ArrayList;
@@ -15,33 +18,52 @@ import java.util.List;
 /**
  * Created by tchheng on 10/31/15.
  */
-public class SearchPageAdapter extends FragmentPagerAdapter {
+public class SearchPageAdapter extends SmartFragmentStatePagerAdapter {
     private final Context mContext;
-    private final List<Fragment> mFragments = new ArrayList<>();
-    private final List<String> mFragmentTitles = new ArrayList<>();
+    String mQuery = "";
 
     public SearchPageAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
     }
 
-    public void addFragment(Fragment fragment, String title) {
-        mFragments.add(fragment);
-        mFragmentTitles.add(title);
+    public void setQuery(String query) {
+        mQuery = query;
+
+        for (int i = 0; i < getCount(); i++) {
+            SearchResultFragment frag = (SearchResultFragment) getRegisteredFragment(i);
+            if (frag != null) {
+                frag.search(mQuery);
+            }
+        }
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mFragments.get(position);
-    }
-
-    @Override
-    public int getCount() {
-        return mFragments.size();
+        switch (position) {
+            case 0:
+                return SearchTagsResultFragment.newInstance(mQuery);
+            case 1:
+                return SearchUsersResultFragment.newInstance(mQuery);
+            default:
+                return null;
+        }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mFragmentTitles.get(position);
+        switch (position) {
+            case 0:
+                return "Users";
+            case 1:
+                return "Tags";
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return 2;
     }
 }

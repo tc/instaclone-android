@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.codepath.instagram.R;
 import com.tommychheng.instagram.helpers.Utils;
+import com.tommychheng.instagram.models.InstagramPost;
 import com.tommychheng.instagram.models.InstagramSearchTag;
 
 import java.util.List;
@@ -24,6 +25,16 @@ public class TagSearchResultsAdapter extends RecyclerView.Adapter<TagSearchResul
 
     public TagSearchResultsAdapter(List<InstagramSearchTag> tags) {
         this.tags = tags;
+    }
+
+    public void clear() {
+        tags.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<InstagramSearchTag> list) {
+        tags.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

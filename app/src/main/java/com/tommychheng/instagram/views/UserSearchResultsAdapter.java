@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.codepath.instagram.R;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tommychheng.instagram.models.InstagramSearchTag;
 import com.tommychheng.instagram.models.InstagramUser;
 
 import java.util.List;
@@ -24,6 +25,16 @@ public class UserSearchResultsAdapter extends RecyclerView.Adapter<UserSearchRes
 
     public UserSearchResultsAdapter(List<InstagramUser> users) {
         this.users = users;
+    }
+
+    public void clear() {
+        users.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<InstagramUser> list) {
+        users.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override

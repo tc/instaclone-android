@@ -30,11 +30,20 @@ public class SearchFragment extends Fragment {
 
     View mView;
     MenuItem miActionProgressItem;
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    SearchPageAdapter adapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
+        viewPager = (ViewPager) mView.findViewById(R.id.search_viewpager);
+        tabLayout = (TabLayout) mView.findViewById(R.id.search_tabs);
+
+        adapter = new SearchPageAdapter(getChildFragmentManager(), getContext());
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
 
         setHasOptionsMenu(true);
 
@@ -56,14 +65,7 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.i(TAG, query);
-
-                ViewPager viewPager = (ViewPager) mView.findViewById(R.id.search_viewpager);
-                if (viewPager != null) {
-                    setupViewPager(viewPager, query);
-                }
-                TabLayout tabLayout = (TabLayout) mView.findViewById(R.id.search_tabs);
-                tabLayout.setupWithViewPager(viewPager);
-
+                adapter.setQuery(query);
                 return true;
             }
 
@@ -93,13 +95,4 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void setupViewPager(ViewPager viewPager, String query) {
-        SearchPageAdapter adapter = new SearchPageAdapter(getChildFragmentManager(), getContext());
-        Fragment tagsFragment = SearchTagsResultFragment.newInstance(query);
-        Fragment usersFragment = SearchUsersResultFragment.newInstance(query);
-        adapter.addFragment(tagsFragment, "Tags");
-        adapter.addFragment(usersFragment, "Users");
-
-        viewPager.setAdapter(adapter);
-    }
 }

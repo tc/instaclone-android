@@ -30,10 +30,12 @@ import org.apache.http.Header;
 /**
  * Created by tchheng on 10/31/15.
  */
-public class SearchUsersResultFragment extends Fragment {
+public class SearchUsersResultFragment extends Fragment implements SearchResultFragment {
     final String TAG = "SearchUsersResult";
 
     RecyclerView mRv;
+    UserSearchResultsAdapter adapter;
+
     String mQuery = "";
 
     public static SearchUsersResultFragment newInstance(String query) {
@@ -50,14 +52,17 @@ public class SearchUsersResultFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_search_user, container, false);
 
         mRv = (RecyclerView) view.findViewById(R.id.rvSearchUser);
+        adapter = new UserSearchResultsAdapter(new ArrayList<InstagramUser>());
+        mRv.setAdapter(adapter);
+        mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         mQuery = getArguments().getString("query");
-        loadUsers(mQuery);
+        search(mQuery);
 
         return view;
     }
 
-    public void loadUsers(String query) {
+    public void search(String query) {
         try {
             MainApplication.getRestClient().searchUsers(query, new JsonHttpResponseHandler() {
                 @Override
@@ -85,14 +90,8 @@ public class SearchUsersResultFragment extends Fragment {
     }
 
     public void setupList(List<InstagramUser> users) {
-        UserSearchResultsAdapter adapter = new UserSearchResultsAdapter(users);
-
-        if (mRv != null) {
-            mRv.setAdapter(adapter);
-            mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
-        } else {
-            Log.i(TAG, "mRv is null");
-        }
+        adapter.clear();
+        adapter.addAll(users);
     }
 
     private List<InstagramUser> getTestSet() {

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.codepath.instagram.R;
 import com.tommychheng.instagram.fragments.PostsFragment;
+import com.tommychheng.instagram.fragments.ProfileFragment;
 import com.tommychheng.instagram.fragments.SearchFragment;
 import com.tommychheng.instagram.views.HomeFragmentPageAdapter;
 
@@ -24,23 +25,12 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
 
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setIcon(HomeFragmentPageAdapter.tabIconId[i]);
-        }
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
         HomeFragmentPageAdapter adapter = new HomeFragmentPageAdapter(getSupportFragmentManager(), this);
-        adapter.addFragment(new PostsFragment());
-        adapter.addFragment(new SearchFragment());
-
         viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
+        adapter.setIcons(tabLayout);
+
     }
 }

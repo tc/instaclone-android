@@ -28,10 +28,11 @@ import org.apache.http.Header;
 /**
  * Created by tchheng on 10/31/15.
  */
-public class SearchTagsResultFragment extends Fragment {
+public class SearchTagsResultFragment extends Fragment implements SearchResultFragment {
     final String TAG = "SearchTagsResult";
     String mQuery = "";
     RecyclerView mRv;
+    TagSearchResultsAdapter adapter;
 
     public static SearchTagsResultFragment newInstance(String query) {
         SearchTagsResultFragment frag = new SearchTagsResultFragment();
@@ -47,14 +48,17 @@ public class SearchTagsResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_tag, container, false);
 
         mRv = (RecyclerView) view.findViewById(R.id.rvSearchTag);
+        adapter = new TagSearchResultsAdapter(new ArrayList<InstagramSearchTag>());
+        mRv.setAdapter(adapter);
+        mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
         mQuery = getArguments().getString("query");
-        loadTags(mQuery);
+        search(mQuery);
 
         return view;
     }
 
-    public void loadTags(String query) {
+    public void search(String query) {
         try {
             MainApplication.getRestClient().searchTags(query, new JsonHttpResponseHandler() {
                 @Override
@@ -82,9 +86,8 @@ public class SearchTagsResultFragment extends Fragment {
     }
 
     public void setupList(List<InstagramSearchTag> tags) {
-        TagSearchResultsAdapter adapter = new TagSearchResultsAdapter(tags);
-        mRv.setAdapter(adapter);
-        mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        adapter.clear();
+        adapter.addAll(tags);
     }
 
     private List<InstagramSearchTag> getTestTags() {

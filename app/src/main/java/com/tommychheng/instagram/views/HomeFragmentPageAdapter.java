@@ -2,14 +2,19 @@ package com.tommychheng.instagram.views;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
+import android.widget.TableLayout;
 
 import com.codepath.instagram.R;
+import com.tommychheng.instagram.fragments.PostsFragment;
+import com.tommychheng.instagram.fragments.ProfileFragment;
+import com.tommychheng.instagram.fragments.SearchFragment;
 import com.tommychheng.instagram.helpers.SmartFragmentStatePagerAdapter;
 
 import java.util.ArrayList;
@@ -20,26 +25,36 @@ import java.util.List;
  */
 public class HomeFragmentPageAdapter extends SmartFragmentStatePagerAdapter {
     private final Context mContext;
-    private final List<Fragment> mFragments = new ArrayList<>();
-    public static int[] tabIconId = {R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_capture, R.drawable.ic_notifs, R.drawable.ic_profile};
+    public static int[] tabIconId = {R.drawable.ic_home, R.drawable.ic_search, R.drawable.ic_profile};
 
     public HomeFragmentPageAdapter(FragmentManager fm, Context context) {
         super(fm);
         mContext = context;
     }
 
-    public void addFragment(Fragment fragment) {
-        mFragments.add(fragment);
-    }
-
     @Override
     public Fragment getItem(int position) {
-        return mFragments.get(position);
+        switch(position) {
+            case 0:
+                return new PostsFragment();
+            case 1:
+                return new SearchFragment();
+            case 2:
+                return new ProfileFragment();
+            default:
+                return null;
+        }
+    }
+
+    public void setIcons(TabLayout tabLayout) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(tabIconId[i]);
+        }
     }
 
     @Override
     public int getCount() {
-        return mFragments.size();
+        return 3;
     }
 
 //    @Override

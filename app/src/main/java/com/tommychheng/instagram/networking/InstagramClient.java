@@ -38,6 +38,7 @@ public class InstagramClient extends OAuthBaseClient {
     final static String USERS_SEARCH_PATH = "users/search?q={query}";
     final static String TAGS_SEARCH_PATH = "tags/search?q={query}";
     final static String FEED_PATH = "users/self/feed";
+    final static String USERS_PATH = "users/{userId}";
 
     public InstagramClient(Context context) {
         super(context, REST_API_CLASS, REST_URL,
@@ -55,6 +56,12 @@ public class InstagramClient extends OAuthBaseClient {
         // services can't use Async http because thread will be killed
         // use sync one
         syncHttpClient.get(apiUrl, params, handler);
+    }
+
+    public void getUser(String userId, JsonHttpResponseHandler handler) {
+        String apiUrl = getApiUrl(USERS_PATH.replace("{userId}", userId));
+        RequestParams params = new RequestParams();
+        client.get(apiUrl, params, handler);
     }
 
     public void searchUsers(String query, JsonHttpResponseHandler handler) {
@@ -84,4 +91,6 @@ public class InstagramClient extends OAuthBaseClient {
 
         nonAuthClient.get(commentsUrl.replace("{mediaId}", mediaId), params, responseHandler);
     }
+
+
 }
