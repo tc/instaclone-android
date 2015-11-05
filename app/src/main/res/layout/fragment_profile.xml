@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        >
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/ivProfileViewProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="4dp"
+        fresco:placeholderImage="@drawable/gray_oval"
+        />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:id="@+id/llPostCountContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvProfileViewPostCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="101"
+                    android:textSize="20sp"
+                    android:layout_gravity="center"
+
+                    android:textColor="@color/gray_text"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="posts"
+                    android:textSize="14sp"
+                    android:textColor="@color/light_gray_text"
+                    android:fontFamily="sans-serif"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llFollowersCountContainer"
+                android:layout_toRightOf="@+id/llPostCountContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvProfileViewFollowerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23"
+                    android:textSize="20dp"
+                    android:textColor="@color/gray_text"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="followers"
+                    android:textSize="14sp"
+                    android:textColor="@color/light_gray_text"
+                    android:fontFamily="sans-serif"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llFollowingCountContainer"
+                android:layout_toRightOf="@+id/llFollowersCountContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvProfileViewFollowingCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23"
+                    android:textSize="20dp"
+                    android:textColor="@color/gray_text"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="following"
+                    android:textSize="14sp"
+                    android:textColor="@color/light_gray_text"
+                    android:fontFamily="sans-serif"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="14dp"
+        >
+        <TextView
+            android:id="@+id/tvProfileViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name here"
+            android:textSize="14sp"
+            android:textColor="@color/gray_text"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/tvProfileViewBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A bio here"
+            android:textSize="14sp"
+            android:textColor="@color/gray_text"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:id="@+id/tvProfileViewLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A bio here"
+            android:textSize="14sp"
+            android:textColor="@color/blue_text"
+            android:fontFamily="sans-serif"/>
+
+    </LinearLayout>
+</LinearLayout>
