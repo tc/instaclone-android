@@ -3,6 +3,7 @@ package com.tommychheng.instagram.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,9 +51,24 @@ public class SearchUsersResultFragment extends Fragment implements SearchResultF
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search_user, container, false);
-
         mRv = (RecyclerView) view.findViewById(R.id.rvSearchUser);
-        adapter = new UserSearchResultsAdapter(new ArrayList<InstagramUser>());
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fts = getChildFragmentManager().beginTransaction();
+
+                String userId = v.getTag() != null ? v.getTag().toString() : "self";
+
+                Log.i(TAG, "userOnClick " + userId);
+
+                fts.replace(R.id.search_viewpager, ProfileFragment.newInstance(userId));
+                fts.addToBackStack("userSearchResult");
+                fts.commit();
+            }
+        };
+
+        adapter = new UserSearchResultsAdapter(new ArrayList<InstagramUser>(), listener);
         mRv.setAdapter(adapter);
         mRv.setLayoutManager(new GridLayoutManager(getActivity(), 1));
 
@@ -61,6 +77,9 @@ public class SearchUsersResultFragment extends Fragment implements SearchResultF
 
         return view;
     }
+
+
+
 
     public void search(String query) {
         try {

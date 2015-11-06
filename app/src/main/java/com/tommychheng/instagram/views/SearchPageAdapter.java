@@ -54,9 +54,9 @@ public class SearchPageAdapter extends SmartFragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Users";
-            case 1:
                 return "Tags";
+            case 1:
+                return "Users";
             default:
                 return null;
         }

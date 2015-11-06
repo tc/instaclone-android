@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,13 @@ public class ProfileFragment extends Fragment {
     TextView tvProfileViewBio;
     TextView tvProfileViewLink;
 
-    String userId;
+    public static ProfileFragment newInstance(String userId) {
+        ProfileFragment frag = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("userId", TextUtils.isEmpty(userId) ? "self" : userId);
+        frag.setArguments(args);
+        return frag;
+    }
 
     @Nullable
     @Override
@@ -50,7 +57,13 @@ public class ProfileFragment extends Fragment {
         tvProfileViewLink = (TextView) view.findViewById(R.id.tvProfileViewLink);
 
         setHasOptionsMenu(true);
-        //userId = getArguments().getString("userId");
+
+        Bundle args = getArguments();
+        String userId = "self";
+        if (args != null) {
+            userId = args.getString("userId", "self");
+        }
+        loadUser(userId);
 
         return view;
     }
@@ -73,6 +86,5 @@ public class ProfileFragment extends Fragment {
         tvProfileViewName.setText("Tommy Chheng");
         tvProfileViewBio.setText("This is a bio");
         tvProfileViewLink.setText("http://tommy.chheng");
-
     }
 }
