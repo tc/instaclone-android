@@ -105,7 +105,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
                     Log.e(TAG, "ProfileFragment#onFailure");
-                    Log.e(TAG, response.toString());
+                    Log.e(TAG, String.valueOf(statusCode));
                 }
             });
 
@@ -128,14 +128,6 @@ public class ProfileFragment extends Fragment {
 
         Uri profileImageUri = Uri.parse(user.profilePictureUrl);
         ivProfileViewProfileImage.setImageURI(profileImageUri);
-
-        GenericDraweeHierarchyBuilder builder =
-                new GenericDraweeHierarchyBuilder(getContext().getResources());
-        GenericDraweeHierarchy hierarchy = builder.build();
-        hierarchy.setPlaceholderImage(R.drawable.gray_oval);
-        ivProfileViewProfileImage.setHierarchy(hierarchy);
-        RoundingParams roundingParams = RoundingParams.fromCornersRadius(5f);
-        roundingParams.setRoundAsCircle(true);
-        ivProfileViewProfileImage.getHierarchy().setRoundingParams(roundingParams);
+        ivProfileViewProfileImage.setAspectRatio(1.0f);
     }
 }

@@ -55,6 +55,8 @@ public class PostsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
+
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         rv = (RecyclerView) view.findViewById(R.id.rvPosts);
 
@@ -86,12 +88,6 @@ public class PostsFragment extends Fragment {
         loadPosts();
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        getActivity().setTitle("Instagram");
     }
 
     public void setupSwipeRefresh(View view) {
@@ -126,6 +122,8 @@ public class PostsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        getActivity().setTitle("Instagram");
+
         Log.i(TAG, "onResume, registering " + InstagramService.ACTION);
         IntentFilter in = new IntentFilter(InstagramService.ACTION);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(postsReceiver, in);

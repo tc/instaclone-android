@@ -39,6 +39,8 @@ public class InstagramClient extends OAuthBaseClient {
     final static String TAGS_SEARCH_PATH = "tags/search?q={query}";
     final static String FEED_PATH = "users/self/feed";
     final static String USERS_PATH = "users/{userId}";
+    final static String USER_RECENT_PHOTOS_PATH = "users/{userId}/media/recent";
+    final static String TAG_RECENT_PHOTOS_PATH = "tags/{tag}/media/recent";
 
     public InstagramClient(Context context) {
         super(context, REST_API_CLASS, REST_URL,

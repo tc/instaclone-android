@@ -76,7 +76,7 @@ public class SearchTagsResultFragment extends Fragment implements SearchResultFr
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
-                    Log.e(TAG, response.toString());
+                    Log.e(TAG, String.valueOf(statusCode));
                 }
             });
 

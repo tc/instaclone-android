@@ -12,6 +12,7 @@ import android.text.style.ImageSpan;
 import android.widget.TableLayout;
 
 import com.codepath.instagram.R;
+import com.tommychheng.instagram.fragments.MainContainerFragment;
 import com.tommychheng.instagram.fragments.PostsFragment;
 import com.tommychheng.instagram.fragments.ProfileFragment;
 import com.tommychheng.instagram.fragments.SearchFragment;
@@ -36,7 +37,7 @@ public class HomeFragmentPageAdapter extends SmartFragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                return new PostsFragment();
+                return new MainContainerFragment();
             case 1:
                 return new SearchFragment();
             case 2:
