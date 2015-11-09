@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -56,7 +57,25 @@ public class PostsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post, container, false);
         rv = (RecyclerView) view.findViewById(R.id.rvPosts);
-        adapter = new PostsAdapter(new ArrayList<InstagramPost>());
+
+
+        View.OnClickListener onUserSelectListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fts = PostsFragment.this.getFragmentManager().beginTransaction();
+
+                String userId = v.getTag() != null ? v.getTag().toString() : "self";
+
+                Log.i(TAG, "userOnClick " + userId);
+
+                fts.replace(R.id.fragment_main_container, ProfileFragment.newInstance(userId))
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .addToBackStack("userSearchResult")
+                        .commit();
+            }
+        };
+
+        adapter = new PostsAdapter(new ArrayList<InstagramPost>(), onUserSelectListener);
         rv.setAdapter(adapter);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 1));
 

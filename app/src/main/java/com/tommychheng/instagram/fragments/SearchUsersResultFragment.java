@@ -56,15 +56,15 @@ public class SearchUsersResultFragment extends Fragment implements SearchResultF
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fts = getChildFragmentManager().beginTransaction();
+                FragmentTransaction fts = getFragmentManager().beginTransaction();
 
                 String userId = v.getTag() != null ? v.getTag().toString() : "self";
 
                 Log.i(TAG, "userOnClick " + userId);
 
-                fts.replace(R.id.search_viewpager, ProfileFragment.newInstance(userId));
-                fts.addToBackStack("userSearchResult");
-                fts.commit();
+                fts.replace(R.id.llFragmentSearch, ProfileFragment.newInstance(userId))
+                    .addToBackStack("userSearchResult")
+                    .commit();
             }
         };
 
@@ -99,7 +99,7 @@ public class SearchUsersResultFragment extends Fragment implements SearchResultF
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
-                    Log.e(TAG, response.toString());
+                    Log.e(TAG, String.valueOf(statusCode));
                 }
             });
 

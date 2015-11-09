@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -339,7 +340,15 @@ public class InstagramClientDatabase extends SQLiteOpenHelper {
                 TABLE_POST_COMMENTS, commentJoin, commentUserJoin, KEY_POST_COMMENT_POST_ID_FK);
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor postsCursor = db.rawQuery(postsSelectQuery, null);
+
+        Cursor postsCursor = null;
+        try {
+            postsCursor = db.rawQuery(postsSelectQuery, null);
+        } catch (SQLiteException e) {
+            // to catch if no tables are found
+            onCreate(db);
+            postsCursor = db.rawQuery(postsSelectQuery, null);
+        }
 
         try {
             if (postsCursor.moveToFirst()) {

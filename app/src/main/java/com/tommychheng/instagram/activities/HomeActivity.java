@@ -2,11 +2,14 @@ package com.tommychheng.instagram.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.codepath.instagram.R;
+import com.tommychheng.instagram.fragments.MainContainerFragment;
 import com.tommychheng.instagram.fragments.PostsFragment;
 import com.tommychheng.instagram.fragments.ProfileFragment;
 import com.tommychheng.instagram.fragments.SearchFragment;
@@ -25,12 +28,14 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         HomeFragmentPageAdapter adapter = new HomeFragmentPageAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
-        adapter.setIcons(tabLayout);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(HomeFragmentPageAdapter.tabIconId[i]);
+        }
     }
 }

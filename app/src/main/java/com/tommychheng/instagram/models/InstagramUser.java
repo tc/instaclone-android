@@ -11,8 +11,13 @@ import java.util.List;
 public class InstagramUser implements Serializable {
     public String userName;
     public String fullName;
+    public String bio;
+    public String website;
     public String profilePictureUrl;
     public String userId;
+    public int mediaCount;
+    public int followsCount;
+    public int followedByCount;
 
     public static InstagramUser fromJson(JSONObject jsonObject) {
         if (jsonObject == null) {
@@ -25,7 +30,18 @@ public class InstagramUser implements Serializable {
             user.userId = jsonObject.getString("id");
             user.userName = jsonObject.getString("username");
             user.fullName = jsonObject.optString("full_name", "");
+            user.bio = jsonObject.optString("bio", "");
+            user.website = jsonObject.optString("website", "");
+
             user.profilePictureUrl = jsonObject.getString("profile_picture");
+
+            JSONObject counts = jsonObject.optJSONObject("counts");
+            if (counts != null) {
+                user.mediaCount = counts.getInt("media");
+                user.followsCount = counts.getInt("follows");
+                user.followedByCount = counts.getInt("followed_by");
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

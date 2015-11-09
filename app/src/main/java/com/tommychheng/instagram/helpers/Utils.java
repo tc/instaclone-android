@@ -61,6 +61,12 @@ public class Utils {
         return comments == null ? new ArrayList<InstagramComment>() : comments;
     }
 
+    public static InstagramUser decodeUserFromJsonResponse(JSONObject jsonObject) throws JSONException {
+        InstagramUser user = InstagramUser.fromJson(jsonObject.getJSONObject("data"));
+
+        return user;
+    }
+
     public static List<InstagramUser> decodeUsersFromJsonResponse(JSONObject jsonObject) {
         List<InstagramUser> users = InstagramUser.fromJson(getDataJsonArray(jsonObject));
         return users == null ? new ArrayList<InstagramUser>() : users;

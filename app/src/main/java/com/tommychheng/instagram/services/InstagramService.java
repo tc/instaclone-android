@@ -57,7 +57,7 @@ public class InstagramService extends IntentService {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable t, JSONObject response) {
-                    Log.e(TAG, response.toString());
+                    Log.e(TAG, String.valueOf(statusCode));
                 }
             });
 

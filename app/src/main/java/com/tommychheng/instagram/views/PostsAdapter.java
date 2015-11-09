@@ -33,9 +33,11 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHolder> {
     List<InstagramPost> posts;
     Context context;
+    View.OnClickListener onUserSelectListener;
 
-    public PostsAdapter(List<InstagramPost> posts) {
+    public PostsAdapter(List<InstagramPost> posts, View.OnClickListener onUserSelectListener) {
         this.posts = posts;
+        this.onUserSelectListener = onUserSelectListener;
     }
 
     public void clear() {
@@ -65,7 +67,10 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         final InstagramPost post = posts.get(position);
         holder.post = post;
 
+        holder.tvUsername.setTag(post.user.userId);
         holder.tvUsername.setText(post.user.userName);
+        holder.tvUsername.setOnClickListener(onUserSelectListener);
+
         holder.tvDate.setText(DateUtils.getRelativeTimeSpanString(post.createdTime * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS));
 
         if (post.likesCount > 0) {
@@ -91,6 +96,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         RoundingParams roundingParams = RoundingParams.fromCornersRadius(5f);
         roundingParams.setRoundAsCircle(true);
         holder.ivProfileImage.getHierarchy().setRoundingParams(roundingParams);
+
 
         // Main image
         Uri imageUri = Uri.parse(post.image.imageUrl);
@@ -160,6 +166,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostsViewHol
         public LinearLayout llComments;
         public TextView tvViewMoreComments;
         public ImageView ivMore;
+        public View containerView;
 
         public PostsViewHolder(View layoutView) {
             super(layoutView);
